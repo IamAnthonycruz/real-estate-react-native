@@ -7,9 +7,13 @@ import SearchBar from "@/components/SearchBar";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import { FlatList } from "react-native";
+import { useGlobalContext } from "@/lib/global-provider";
+import seed from "@/lib/seed";
 export default function Index() {
+  const { user } = useGlobalContext();
   return (
     <SafeAreaView className="bg-white h-full">
+      <Button title="Seed" onPress={seed} />
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={({ item }) => <Card />}
@@ -23,7 +27,7 @@ export default function Index() {
             <View className="flex flex-row items-center justify-between mt-5">
               <View className="flex flex-row items-center">
                 <Image
-                  source={images.avatar}
+                  source={{ uri: user?.avatar }}
                   className="size-12 rounded-full"
                 />
                 <View className="flex flex-col items-start ml-2 justify-center">
@@ -31,7 +35,7 @@ export default function Index() {
                     Good Morning
                   </Text>
                   <Text className="text-base font-rubik-medium text-black-300">
-                    Adrian
+                    {user?.name}
                   </Text>
                 </View>
               </View>
@@ -55,6 +59,9 @@ export default function Index() {
                 renderItem={({ item }) => <FeaturedCard></FeaturedCard>}
                 keyExtractor={(item) => item.toString()}
                 horizontal
+                bounces={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerClassName="flex gap-5 mt-5"
               />
             </View>
             <View className="flex flex-row items-center justify-between">
